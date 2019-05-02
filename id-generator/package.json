@@ -1,0 +1,9 @@
+{
+  "name": "@publisher/id-generator",
+  "version": "0.0.0-monorepo",
+  "main": "index.js",
+  "dependencies": {
+    "array-shuffle": "^1.0.1"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@publisher/yarn-helpers",
+  "version": "0.0.0-monorepo",
+  "main": "index.js",
+  "engines": {
+    "yarn": "^1.15.2"
+  },
+  "license": "MIT"
+}

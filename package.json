@@ -1,0 +1,24 @@
+{
+  "name": "publisher-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "core",
+    "deployment-handler",
+    "probot-app",
+    "push-handler",
+    "id-generator",
+    "npm-helpers",
+    "yarn-helpers"
+  ],
+  "scripts": {
+    "flow": "flow"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "flow-bin": "^0.97.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  }
+}

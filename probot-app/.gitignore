@@ -1,0 +1,3 @@
+*.pem
+!mock-cert.pem
+.env
