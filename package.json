@@ -8,6 +8,7 @@
     "probot-app",
     "push-handler",
     "id-generator",
+    "npm-auth",
     "npm-helpers",
     "yarn-helpers"
   ],
