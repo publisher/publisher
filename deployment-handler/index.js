@@ -235,7 +235,6 @@ async function publish(tar /*: string */, distTag /*: string*/) {
     tar,
     "--tag",
     distTag,
-    "--dry-run",
     "--json",
   ]);
   const publishData = JSON.parse(stdout);
