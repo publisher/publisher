@@ -230,13 +230,11 @@ type PublishData = {
 */
 
 async function publish(tar /*: string */, distTag /*: string*/) {
-  const { stdout } = await execFile("npm", [
-    "publish",
-    tar,
-    "--tag",
-    distTag,
-    "--json",
-  ]);
+  const { stdout } = await execFile(
+    "npm",
+    ["publish", path.basename(tar), "--tag", distTag, "--json"],
+    { cwd: path.dirname(tar) },
+  );
   const publishData = JSON.parse(stdout);
   return (publishData /*: PublishData */);
 }
