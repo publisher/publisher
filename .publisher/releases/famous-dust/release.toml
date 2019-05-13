@@ -1,0 +1,25 @@
+# ═════ Packages to publish ═════
+
+["@publisher/core"]
+version = "TODO"
+
+["@publisher/deployment-handler"]
+version = "TODO"
+
+["@publisher/id-generator"]
+version = "TODO"
+
+["@publisher/npm-auth"]
+version = "TODO"
+
+["@publisher/npm-helpers"]
+version = "TODO"
+
+["@publisher/probot-app"]
+version = "TODO"
+
+["@publisher/push-handler"]
+version = "TODO"
+
+["@publisher/yarn-helpers"]
+version = "TODO"
