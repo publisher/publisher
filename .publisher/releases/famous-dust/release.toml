@@ -1,0 +1,25 @@
+# ═════ Packages to publish ═════
+
+["@publisher/core"]
+version = "0.1.0"
+
+["@publisher/deployment-handler"]
+version = "0.1.0"
+
+["@publisher/id-generator"]
+version = "0.1.0"
+
+["@publisher/npm-auth"]
+version = "0.1.0"
+
+["@publisher/npm-helpers"]
+version = "0.1.0"
+
+["@publisher/probot-app"]
+version = "0.1.0"
+
+["@publisher/push-handler"]
+version = "0.1.0"
+
+["@publisher/yarn-helpers"]
+version = "0.1.0"
