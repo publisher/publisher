@@ -1,25 +1,25 @@
 # ═════ Packages to publish ═════
 
 ["@publisher/core"]
-version = "TODO"
+version = "0.1.0"
 
 ["@publisher/deployment-handler"]
-version = "TODO"
+version = "0.1.0"
 
 ["@publisher/id-generator"]
-version = "TODO"
+version = "0.1.0"
 
 ["@publisher/npm-auth"]
-version = "TODO"
+version = "0.1.0"
 
 ["@publisher/npm-helpers"]
-version = "TODO"
+version = "0.1.0"
 
 ["@publisher/probot-app"]
-version = "TODO"
+version = "0.1.0"
 
 ["@publisher/push-handler"]
-version = "TODO"
+version = "0.1.0"
 
 ["@publisher/yarn-helpers"]
-version = "TODO"
+version = "0.1.0"
