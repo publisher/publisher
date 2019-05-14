@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@iarna/toml": "^2.2.3",
-    "@publisher/core": "0.0.0-alpha.0",
-    "@publisher/id-generator": "0.0.0-alpha.0",
+    "@publisher/core": "0.0.0-monorepo",
+    "@publisher/id-generator": "0.0.0-monorepo",
     "@rtsao/scc": "^1.0.0",
     "array-shuffle": "^1.0.1",
     "probot": "^9.2.2",
