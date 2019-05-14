@@ -5,7 +5,3 @@
 
 # @publisher/rush-helpers
  - Add rush helpers (#2)
-
-* Add rush helpers
-
-* Update lockfile
