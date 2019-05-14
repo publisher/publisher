@@ -10,7 +10,8 @@
     "id-generator",
     "npm-auth",
     "npm-helpers",
-    "yarn-helpers"
+    "yarn-helpers",
+    "rush-helpers"
   ],
   "scripts": {
     "flow": "flow"
