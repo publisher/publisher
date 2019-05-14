@@ -2,10 +2,10 @@
 
 ["@publisher/probot-app"]
 # prior : "0.1.0"
-version = "TODO"
+version = "0.1.1"
 
 ["@publisher/rush-helpers"]
-version = "TODO"
+version = "0.1.0"
 
 # ═════ Unchanged packages ═════
 
