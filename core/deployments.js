@@ -54,7 +54,7 @@ const StableDeployment = {
 };
 
 /*::
-type Payload = Webhooks$WebhookPayloadDeploymentDeploymentPayload;
+type Payload = any;
 */
 
 module.exports = {
