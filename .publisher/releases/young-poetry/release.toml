@@ -2,19 +2,19 @@
 
 ["@publisher/core"]
 # prior : "0.1.0"
-version = "TODO"
+version = "0.1.1"
 
 ["@publisher/deployment-handler"]
 # prior : "0.1.0"
-version = "TODO"
+version = "0.1.1"
 
 ["@publisher/probot-app"]
 # prior : "0.1.1"
-version = "TODO"
+version = "0.1.2"
 
 ["@publisher/push-handler"]
 # prior : "0.1.0"
-version = "TODO"
+version = "0.1.1"
 
 # ═════ Unchanged packages ═════
 
