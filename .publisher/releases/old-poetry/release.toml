@@ -1,0 +1,31 @@
+# ═════ Packages to publish ═════
+
+["@publisher/deployment-handler"]
+# prior : "0.1.1"
+version = "0.1.2"
+
+["@publisher/core"]
+version = "0.1.2"
+
+["@publisher/id-generator"]
+version = "0.1.1"
+
+["@publisher/npm-auth"]
+version = "0.1.1"
+
+["@publisher/npm-helpers"]
+version = "0.1.1"
+
+["@publisher/probot-app"]
+version = "0.1.4"
+
+["@publisher/push-handler"]
+version = "0.1.2"
+
+["@publisher/rush-helpers"]
+version = "0.1.1"
+
+["@publisher/yarn-helpers"]
+version = "0.1.1"
+
+
