@@ -29,7 +29,7 @@ async function writeAuthCredentials(
   const lines = [
     `//${registryUrl}/:_authToken = ${token}`,
     `registry = ${registryScheme}://${registryUrl}`,
-    "access = public",
+    `access = public`,
     `strict-ssl = ${String(sslStrict)}`,
   ];
   const contents = lines.join("\n") + "\n";
