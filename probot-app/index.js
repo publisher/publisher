@@ -471,11 +471,11 @@ async function releasePR(
   const { identifier } = requested_action;
   const { head_sha, check_suite } = check_run;
 
-  const { head_branch } = check_suite;
+  let { head_branch } = check_suite;
 
   if (!head_branch === null) {
     // TODO: Precisely determine branch for commit
-    head_branch === "master";
+    head_branch = "master";
   }
 
   const shorthash = head_sha.substr(0, 7);
