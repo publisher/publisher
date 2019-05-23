@@ -473,6 +473,11 @@ async function releasePR(
 
   const { head_branch } = check_suite;
 
+  if (!head_branch === null) {
+    // TODO: Precisely determine branch for commit
+    head_branch === "master";
+  }
+
   const shorthash = head_sha.substr(0, 7);
 
   const releaseContext = await getReleaseContext(
