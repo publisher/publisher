@@ -537,10 +537,10 @@ async function releasePR(
       base: head_branch,
       title: `Release ${shorthash} (${id})`,
       maintainer_can_modify: true,
-      draft: true,
-      mediaType: {
-        previews: ["shadow-cat"], // draft support
-      },
+      // draft: true,
+      // mediaType: {
+      //   previews: ["shadow-cat"], // draft support
+      // },
     }),
   );
 
