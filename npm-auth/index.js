@@ -27,9 +27,10 @@ async function writeAuthCredentials(
 ) {
   const registryScheme = sslStrict ? "https" : "http";
   const lines = [
-    `//${registryUrl}/:_authToken=${token}`,
-    `registry=${registryScheme}://${registryUrl}`,
-    `strict-ssl=${String(sslStrict)}`,
+    `//${registryUrl}/:_authToken = ${token}`,
+    `registry = ${registryScheme}://${registryUrl}`,
+    "access = public",
+    `strict-ssl = ${String(sslStrict)}`,
   ];
   const contents = lines.join("\n") + "\n";
   await writeFile(configPath, contents, { mode: 0o0600 });
