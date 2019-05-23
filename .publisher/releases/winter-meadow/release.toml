@@ -2,7 +2,7 @@
 
 ["@publisher/probot-app"]
 # prior : "0.1.6"
-version = "TODO"
+version = "0.1.7"
 
 # ═════ Unchanged packages ═════
 
