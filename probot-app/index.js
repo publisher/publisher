@@ -473,7 +473,7 @@ async function releasePR(
 
   let { head_branch } = check_suite;
 
-  if (!head_branch === null) {
+  if (head_branch === null) {
     // TODO: Precisely determine branch for commit
     head_branch = "master";
   }
