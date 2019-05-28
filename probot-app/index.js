@@ -423,10 +423,23 @@ async function getReleaseContext(
     // of changelog generation, because we don't necessarily know
     // which packages it belongs to
     if (status && parentCommitStatus) {
-      const { modified } = diffPackages(status, parentCommitStatus);
-      for (const pkg of modified) {
+      const { needsPublishing, onlyLocalDepChanges } = diffPackages(
+        status,
+        parentCommitStatus,
+      );
+      for (const pkg of needsPublishing) {
         const changes = packageChanges.get(pkg) || [];
-        changes.push(commit.message);
+
+        if (onlyLocalDepChanges.has(pkg)) {
+          for (const dep of status[pkg].localDependencies) {
+            if (needsPublishing.has(dep)) {
+              changes.push(`Upgraded ${dep} dependency`);
+            }
+          }
+        } else {
+          changes.push(commit.message);
+        }
+
         packageChanges.set(pkg, changes);
       }
     }
@@ -450,7 +463,7 @@ async function getReleaseContext(
   const overallDiff = diffPackages(headStatus, baseStatus);
   for (const pkg of sorted) {
     packages.set(pkg, {
-      publish: overallDiff.modified.has(pkg),
+      publish: overallDiff.needsPublishing.has(pkg),
       relevantChanges: packageChanges.get(pkg) || [],
       priorVersion: priorVersions[pkg],
     });
@@ -769,11 +782,9 @@ function diffPackages(
 
   const added = difference(headSet, baseSet);
   const deleted = difference(baseSet, headSet);
-  const depsUpdated = difference(needsPublishing, modified);
+  const onlyLocalDepChanges = difference(needsPublishing, modified);
 
-  // TODO: better changelogs
-  return { modified: needsPublishing };
-  // return { needsPublishing, modified, deleted, added, depsUpdated };
+  return { needsPublishing, modified, deleted, added, onlyLocalDepChanges };
 }
 
 async function formatMarkdown(
