@@ -9,5 +9,5 @@ module.exports = {
   RELEASES_DIRECTORY_PATH: ".publisher/releases",
 
   RELEASE_MANIFEST_FILENAME: "release.toml",
-  RELEASE_NOTES_FILENAME: "release_notes.md",
+  RELEASE_NOTES_FILENAME: "notes.md",
 };
