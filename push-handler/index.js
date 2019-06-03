@@ -53,8 +53,6 @@ async function validateRelease(github, payload) {
   const { id: check_run_id } = check.data;
 
   try {
-    // const workspaces = await getWorkspaces();
-
     // TODO: validate
 
     await github.checks.update({
