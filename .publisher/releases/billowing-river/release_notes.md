@@ -25,4 +25,4 @@
 # @publisher/rush-helpers
 > *Changes since v0.1.2*
 
- - Only publish changed packages in canary releases (#21)
+- Refactoring
