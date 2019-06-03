@@ -209,9 +209,8 @@ async function onPullRequestClosed(context) {
 async function canaryPublish(
   context /*: Context<Webhooks$WebhookPayloadCheckRun> */,
 ) {
-  const { requested_action, check_run, repository } = context.payload;
-  const { identifier } = requested_action;
-  const { head_sha, check_suite } = check_run;
+  const { check_run } = context.payload;
+  const { head_sha } = check_run;
 
   const [existing, releaseContext] = await Promise.all([
     context.github.repos.listDeployments(
@@ -231,12 +230,7 @@ async function canaryPublish(
     return;
   }
 
-  const {
-    tree_sha,
-    priorReleaseSha,
-    packages,
-    existingReleases,
-  } = releaseContext;
+  const { packages } = releaseContext;
 
   const unchangedPackages = {};
   for (const [pkg, { publish, priorVersion }] of packages) {
@@ -250,7 +244,7 @@ async function canaryPublish(
     unchangedPackages,
   });
 
-  const result = await context.github.repos.createDeployment(
+  await context.github.repos.createDeployment(
     context.repo({
       ref: head_sha,
       task: CanaryDeployment.taskId,
@@ -509,8 +503,7 @@ async function getReleaseContext(
 async function releasePR(
   context /*: Context<Webhooks$WebhookPayloadCheckRun> */,
 ) {
-  const { requested_action, check_run, repository } = context.payload;
-  const { identifier } = requested_action;
+  const { check_run, repository } = context.payload;
   const { head_sha, check_suite } = check_run;
 
   let { head_branch } = check_suite;
@@ -821,7 +814,7 @@ async function formatMarkdown(
   packages,
 ) /*: Promise<string> */ {
   const result = await remark()
-    .use(() => (tree, file) => {
+    .use(() => tree => {
       for (const child of tree.children) {
         if (child.type !== "heading" || child.depth !== 1) {
           continue;

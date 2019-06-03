@@ -49,7 +49,7 @@ async function deploymentHandler(
     previews: ["ant-man-preview", "flash-preview", "shadow-cat-preview"],
   });
 
-  const { deployment, repository } = eventPayload;
+  const { deployment } = eventPayload;
 
   if (deployment.task === CanaryDeployment.taskId) {
     await publishCanary(github, eventPayload);
@@ -128,8 +128,6 @@ async function publishStable(github, payload) {
 
 async function publishDeployment(github, payload, getPackages) {
   const { deployment, repository } = payload;
-
-  const started_at = new Date().toISOString();
 
   await github.repos.createDeploymentStatus({
     owner: repository.owner.login,
