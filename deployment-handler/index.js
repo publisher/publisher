@@ -28,9 +28,9 @@ const { pack } = require("@publisher/npm-helpers");
 /*::
 type Packages = {
   [string]: {
+    publish: boolean,
     dir: string,
     version: string,
-    publish: boolean,
     localDependencies: Array<string>,
     distTag: string,
   }
@@ -49,7 +49,7 @@ async function deploymentHandler(
     previews: ["ant-man-preview", "flash-preview", "shadow-cat-preview"],
   });
 
-  const { deployment, repository } = eventPayload;
+  const { deployment } = eventPayload;
 
   if (deployment.task === CanaryDeployment.taskId) {
     await publishCanary(github, eventPayload);
@@ -60,7 +60,9 @@ async function deploymentHandler(
 
 async function publishCanary(github, payload) {
   const { deployment } = payload;
-  const { id } = CanaryDeployment.deserializePayload(deployment.payload);
+  const { id, unchangedPackages } = CanaryDeployment.deserializePayload(
+    deployment.payload,
+  );
   const shorthash = deployment.sha.substr(0, 7);
   const version = `0.0.0-canary.${shorthash}.${id}`;
   const distTag = "canary";
@@ -72,13 +74,23 @@ async function publishCanary(github, payload) {
     for (const name of Object.keys(workspace)) {
       const { location, workspaceDependencies } = workspace[name];
 
-      packages[name] = {
-        dir: location,
-        version,
-        distTag,
-        publish: true,
-        localDependencies: workspaceDependencies,
-      };
+      if (unchangedPackages[name]) {
+        packages[name] = {
+          dir: location,
+          version: unchangedPackages[name].version,
+          distTag,
+          publish: false,
+          localDependencies: workspaceDependencies,
+        };
+      } else {
+        packages[name] = {
+          dir: location,
+          version,
+          distTag,
+          publish: true,
+          localDependencies: workspaceDependencies,
+        };
+      }
     }
     return packages;
   });
@@ -116,8 +128,6 @@ async function publishStable(github, payload) {
 
 async function publishDeployment(github, payload, getPackages) {
   const { deployment, repository } = payload;
-
-  const started_at = new Date().toISOString();
 
   await github.repos.createDeploymentStatus({
     owner: repository.owner.login,

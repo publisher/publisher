@@ -206,25 +206,45 @@ async function onPullRequestClosed(context) {
   );
 }
 
-async function canaryPublish(context) {
-  const { requested_action, check_run } = context.payload;
-  const { identifier } = requested_action;
+async function canaryPublish(
+  context /*: Context<Webhooks$WebhookPayloadCheckRun> */,
+) {
+  const { check_run } = context.payload;
   const { head_sha } = check_run;
 
-  const existing = await context.github.repos.listDeployments(
-    context.repo({
-      ref: head_sha,
-      task: CanaryDeployment.taskId,
-      environment: "npm",
-      per_page: 100,
-    }),
-  );
+  const [existing, releaseContext] = await Promise.all([
+    context.github.repos.listDeployments(
+      context.repo({
+        ref: head_sha,
+        task: CanaryDeployment.taskId,
+        environment: "npm",
+        per_page: 100,
+      }),
+    ),
+    getReleaseContext(context, head_sha),
+  ]);
 
   const id = existing.data.length;
 
-  const payload = CanaryDeployment.serializePayload({ id });
+  if (!releaseContext) {
+    return;
+  }
 
-  const result = await context.github.repos.createDeployment(
+  const { packages } = releaseContext;
+
+  const unchangedPackages = {};
+  for (const [pkg, { publish, priorVersion }] of packages) {
+    if (publish === false) {
+      unchangedPackages[pkg] = priorVersion;
+    }
+  }
+
+  const payload = CanaryDeployment.serializePayload({
+    id,
+    unchangedPackages,
+  });
+
+  await context.github.repos.createDeployment(
     context.repo({
       ref: head_sha,
       task: CanaryDeployment.taskId,
@@ -342,11 +362,14 @@ async function getReleaseContext(
   const [headStatus, existingReleases, refResult] = await Promise.all([
     headCommitStatusPromise,
     getExistingTaggedReleases(context),
-    context.github.git.getRef(
-      context.repo({
-        ref: `heads/${branch}`,
-      }),
-    ),
+    // Only fetch branch if provided, otherwise ignore up-to-date check
+    branch
+      ? context.github.git.getRef(
+          context.repo({
+            ref: `heads/${branch}`,
+          }),
+        )
+      : { data: { object: { sha } } },
   ]);
 
   if (
@@ -480,8 +503,7 @@ async function getReleaseContext(
 async function releasePR(
   context /*: Context<Webhooks$WebhookPayloadCheckRun> */,
 ) {
-  const { requested_action, check_run, repository } = context.payload;
-  const { identifier } = requested_action;
+  const { check_run, repository } = context.payload;
   const { head_sha, check_suite } = check_run;
 
   let { head_branch } = check_suite;
@@ -792,7 +814,7 @@ async function formatMarkdown(
   packages,
 ) /*: Promise<string> */ {
   const result = await remark()
-    .use(() => (tree, file) => {
+    .use(() => tree => {
       for (const child of tree.children) {
         if (child.type !== "heading" || child.depth !== 1) {
           continue;

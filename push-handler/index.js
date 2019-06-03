@@ -1,18 +1,9 @@
 // @flow
 "use strict";
 
-const cp = require("child_process");
-const { promisify } = require("util");
 const path = require("path");
-const fs = require("fs");
-const execFile = promisify(cp.execFile);
-const readFile = promisify(fs.readFile);
-const writeFile = promisify(fs.writeFile);
 
 const Octokit = require("@octokit/rest");
-
-const TOML = require("@iarna/toml");
-const semver = require("semver");
 
 const RELEASE_VALIDATION_CHECK_NAME = "Release validation";
 
@@ -62,8 +53,6 @@ async function validateRelease(github, payload) {
   const { id: check_run_id } = check.data;
 
   try {
-    const workspaces = await getWorkspaces();
-
     // TODO: validate
 
     await github.checks.update({
