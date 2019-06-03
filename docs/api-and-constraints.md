@@ -71,7 +71,12 @@ publish = false
 
 ```json
 {
-  "id": 3
+  "schema_version": "2",
+  "id": 3,
+  "unchangedPackages": {
+    "foo": {"version": "1.2.3"},
+    "bar": {"version": "4.5.6"}
+  }
 }
 ```
 
