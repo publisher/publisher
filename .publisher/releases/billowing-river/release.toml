@@ -1,0 +1,41 @@
+# ═════ Packages to publish ═════
+
+["@publisher/core"]
+# prior : "0.1.3"
+version = "0.2.0"
+
+["@publisher/deployment-handler"]
+# prior : "0.1.3"
+version = "0.2.0"
+
+["@publisher/probot-app"]
+# prior : "0.1.9"
+version = "0.2.0"
+
+["@publisher/push-handler"]
+# prior : "0.1.3"
+version = "0.2.0"
+
+["@publisher/rush-helpers"]
+# prior : "0.1.2"
+version = "0.2.0"
+
+# ═════ Unchanged packages ═════
+
+["@publisher/id-generator"]
+publish = false
+version = "0.1.2"
+
+["@publisher/npm-auth"]
+publish = false
+version = "0.1.4"
+
+["@publisher/npm-helpers"]
+publish = false
+version = "0.1.2"
+
+["@publisher/yarn-helpers"]
+publish = false
+version = "0.1.2"
+
+
