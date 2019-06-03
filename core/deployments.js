@@ -4,23 +4,31 @@
 /*::
 type CanaryPayload = {
   id: number,
+  unchangedPackages: {
+    [string]: {
+      version: string,
+    }
+  }
 };
 */
 
 const CanaryDeployment = {
   taskId: "publish:canary",
 
-  serializePayload({ id } /*: CanaryPayload */) {
+  serializePayload({ id, unchangedPackages } /*: CanaryPayload */) {
     const payload = {
-      schema_version: 1,
+      schema_version: 2,
       id,
+      unchangedPackages,
     };
     return payload;
   },
   deserializePayload(deploymentPayload /*: Payload */) {
     const payload /*: any */ = deploymentPayload;
     if (payload.schema_version === 1) {
-      return { id: payload.id };
+      return { id: payload.id, unchangedPackages: {} };
+    } else if (payload.schema_version === 2) {
+      return { id: payload.id, unchangedPackages: payload.unchangedPackages };
     }
     throw new Error("Invalid payload schema version");
   },

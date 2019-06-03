@@ -206,23 +206,59 @@ async function onPullRequestClosed(context) {
   );
 }
 
-async function canaryPublish(context) {
-  const { requested_action, check_run } = context.payload;
+async function canaryPublish(
+  context /*: Context<Webhooks$WebhookPayloadCheckRun> */,
+) {
+  const { requested_action, check_run, repository } = context.payload;
   const { identifier } = requested_action;
-  const { head_sha } = check_run;
+  const { head_sha, check_suite } = check_run;
 
-  const existing = await context.github.repos.listDeployments(
-    context.repo({
-      ref: head_sha,
-      task: CanaryDeployment.taskId,
-      environment: "npm",
-      per_page: 100,
-    }),
-  );
+  let { head_branch } = check_suite;
+
+  if (head_branch === null) {
+    // TODO: Precisely determine branch for commit
+    head_branch = "master";
+  }
+
+  const shorthash = head_sha.substr(0, 7);
+
+  const [existing, releaseContext] = await Promise.all([
+    context.github.repos.listDeployments(
+      context.repo({
+        ref: head_sha,
+        task: CanaryDeployment.taskId,
+        environment: "npm",
+        per_page: 100,
+      }),
+    ),
+
+    getReleaseContext(context, head_sha, head_branch),
+  ]);
 
   const id = existing.data.length;
 
-  const payload = CanaryDeployment.serializePayload({ id });
+  if (!releaseContext) {
+    return;
+  }
+
+  const {
+    tree_sha,
+    priorReleaseSha,
+    packages,
+    existingReleases,
+  } = releaseContext;
+
+  const unchangedPackages = {};
+  for (const [pkg, { publish, priorVersion }] of packages) {
+    if (publish === false) {
+      unchangedPackages[pkg] = priorVersion;
+    }
+  }
+
+  const payload = CanaryDeployment.serializePayload({
+    id,
+    unchangedPackages,
+  });
 
   const result = await context.github.repos.createDeployment(
     context.repo({
