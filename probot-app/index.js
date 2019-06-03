@@ -213,15 +213,6 @@ async function canaryPublish(
   const { identifier } = requested_action;
   const { head_sha, check_suite } = check_run;
 
-  let { head_branch } = check_suite;
-
-  if (head_branch === null) {
-    // TODO: Precisely determine branch for commit
-    head_branch = "master";
-  }
-
-  const shorthash = head_sha.substr(0, 7);
-
   const [existing, releaseContext] = await Promise.all([
     context.github.repos.listDeployments(
       context.repo({
@@ -231,8 +222,7 @@ async function canaryPublish(
         per_page: 100,
       }),
     ),
-
-    getReleaseContext(context, head_sha, head_branch),
+    getReleaseContext(context, head_sha),
   ]);
 
   const id = existing.data.length;
@@ -378,11 +368,14 @@ async function getReleaseContext(
   const [headStatus, existingReleases, refResult] = await Promise.all([
     headCommitStatusPromise,
     getExistingTaggedReleases(context),
-    context.github.git.getRef(
-      context.repo({
-        ref: `heads/${branch}`,
-      }),
-    ),
+    // Only fetch branch if provided, otherwise ignore up-to-date check
+    branch
+      ? context.github.git.getRef(
+          context.repo({
+            ref: `heads/${branch}`,
+          }),
+        )
+      : { data: { object: { sha } } },
   ]);
 
   if (
