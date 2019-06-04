@@ -4,7 +4,7 @@ workflow "Deployment handler" {
 }
 
 action "Handle deployment" {
-  uses = "publisher/gh-actions/deployment@2da342f320d7489e9e2833a7f218a614c14d4d30"
+  uses = "publisher/gh-actions/deployment@2990a00466d98f73266785c8477a21219b5efe6e"
   secrets = [
     "GITHUB_TOKEN",
     "NPM_AUTH_TOKEN",
@@ -17,6 +17,6 @@ workflow "Push handler" {
 }
 
 action "Handle push" {
-  uses = "publisher/gh-actions/push@2da342f320d7489e9e2833a7f218a614c14d4d30"
+  uses = "publisher/gh-actions/push@2990a00466d98f73266785c8477a21219b5efe6e"
   secrets = ["GITHUB_TOKEN"]
 }
