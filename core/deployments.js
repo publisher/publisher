@@ -5,9 +5,7 @@
 type CanaryPayload = {
   id: number,
   unchangedPackages: {
-    [string]: {
-      version: string,
-    }
+    [string]: string
   }
 };
 */

@@ -74,8 +74,8 @@ publish = false
   "schema_version": "2",
   "id": 3,
   "unchangedPackages": {
-    "foo": {"version": "1.2.3"},
-    "bar": {"version": "4.5.6"}
+    "foo": "1.2.3",
+    "bar": "4.5.6"
   }
 }
 ```

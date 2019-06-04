@@ -77,7 +77,7 @@ async function publishCanary(github, payload) {
       if (unchangedPackages[name]) {
         packages[name] = {
           dir: location,
-          version: unchangedPackages[name].version,
+          version: unchangedPackages[name],
           distTag,
           publish: false,
           localDependencies: workspaceDependencies,
