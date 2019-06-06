@@ -195,13 +195,16 @@ async function publishRelease(packages) {
       console.log(
         `${id} successfully published (dist-tag: ${distTag}, shasum: ${shasum})`,
       );
-      published.push(result);
+      published.unshift(result); // Unpublish in topological order (reverse order of publish)
     }
   } catch (err) {
+    process.exitCode = 1;
     console.error(err);
     console.log("Error ocurred. Unpublishing...");
     for (const pkg of published) {
-      // TODO: unpublish
+      console.log(`Unpublishing ${pkg.id}`);
+      const stdout = await unpublish(pkg.id);
+      console.log(stdout);
     }
   }
 }
@@ -225,6 +228,11 @@ function getTopologicalOrder(packages) {
     }
   }
   return sorted;
+}
+
+async function unpublish(id /*: string */) {
+  const { stdout } = await execFile("npm", ["unpublish", id]);
+  return stdout;
 }
 
 /*::
