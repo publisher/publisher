@@ -453,13 +453,7 @@ async function getReleaseContext(
       for (const pkg of needsPublishing) {
         const changes = packageChanges.get(pkg) || [];
 
-        if (onlyLocalDepChanges.has(pkg)) {
-          for (const dep of status[pkg].localDependencies) {
-            if (needsPublishing.has(dep)) {
-              changes.push(`Upgraded ${dep} dependency`);
-            }
-          }
-        } else {
+        if (!onlyLocalDepChanges.has(pkg)) {
           changes.push(commit.message);
         }
 
@@ -484,6 +478,21 @@ async function getReleaseContext(
   }
 
   const overallDiff = diffPackages(headStatus, baseStatus);
+
+  // Note local dependency upgrades only on the basis of overall diff
+  const { needsPublishing, onlyLocalDepChanges } = overallDiff;
+  for (const pkg of needsPublishing) {
+    const changes = packageChanges.get(pkg) || [];
+    if (onlyLocalDepChanges.has(pkg)) {
+      for (const dep of headStatus[pkg].localDependencies) {
+        if (needsPublishing.has(dep)) {
+          changes.push(`Upgraded ${dep} dependency`);
+        }
+      }
+    }
+    packageChanges.set(pkg, changes);
+  }
+
   for (const pkg of sorted) {
     packages.set(pkg, {
       publish: overallDiff.needsPublishing.has(pkg),
