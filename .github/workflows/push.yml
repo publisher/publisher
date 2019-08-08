@@ -1,0 +1,12 @@
+on: push
+name: Push handler
+jobs:
+  handlePush:
+    name: Handle push
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Handle push
+      uses: publisher/gh-actions/push@2990a00466d98f73266785c8477a21219b5efe6e
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
