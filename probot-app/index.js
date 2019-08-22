@@ -98,8 +98,8 @@ async function onCommitComment(context) {
   }
 
   const command = {
-    "!canary": "CANARY",
-    "!release": "RELEASE",
+    "!canary": CANARY_PUBLISH_ACTION_ID,
+    "!release": RELEASE_PR_ACTION_ID,
   }[body.replace(/\r\n|\r|\n/g, "").trim()];
 
   if (!command) {
@@ -119,9 +119,9 @@ async function onCommitComment(context) {
     },
   };
   const checkRunContext /*: Context<Webhooks$WebhookPayloadCheckRun> */ = fullContext;
-  if (command === "CANARY") {
+  if (command === CANARY_PUBLISH_ACTION_ID) {
     canaryPublish(checkRunContext);
-  } else if (command === "RELEASE") {
+  } else if (command === RELEASE_PR_ACTION_ID) {
     releasePR(checkRunContext);
   }
 }
