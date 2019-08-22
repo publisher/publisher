@@ -5,9 +5,9 @@ jobs:
     name: Handle deployment
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Handle deployment
-      uses: publisher/gh-actions/deployment@2990a00466d98f73266785c8477a21219b5efe6e
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - uses: actions/checkout@master
+      - name: Handle deployment
+        uses: publisher/gh-actions/deployment@ab652c63e792e125229c06659697da1274108b18
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
