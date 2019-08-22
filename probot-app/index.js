@@ -44,6 +44,8 @@ module.exports = (app /*: Application */) => {
   app.on("commit_comment", onCommitComment);
 };
 
+module.exports.canaryPublish = canaryPublish;
+
 async function onDeploymentStatus(context) {
   const { deployment_status, deployment } = context.payload;
 

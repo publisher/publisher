@@ -1,0 +1,9 @@
+{
+  "name": "@publisher/canary-cli",
+  "version": "0.0.0-monorepo",
+  "main": "index.js",
+  "dependencies": {
+    "@publisher/probot-app": "0.0.0-monorepo"
+  },
+  "license": "MIT"
+}
