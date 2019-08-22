@@ -41,6 +41,7 @@ module.exports = (app /*: Application */) => {
   app.on("pull_request.closed", onPullRequestClosed);
   app.on("deployment_status", onDeploymentStatus);
   app.on("check_run.requested_action", onCheckRunRequestedAction);
+  app.on("commit_comment", onCommitComment);
 };
 
 async function onDeploymentStatus(context) {
@@ -82,6 +83,47 @@ async function onDeploymentStatus(context) {
       body: formatted,
     }),
   );
+}
+
+async function onCommitComment(context) {
+  const { comment, repository } = context.payload;
+  const { body, author_association, commit_id } = comment;
+
+  if (
+    author_association !== "OWNER" &&
+    author_association !== "MEMBER" &&
+    author_association !== "COLLABORATOR"
+  ) {
+    return;
+  }
+
+  const command = {
+    "!canary": "CANARY",
+    "!release": "RELEASE",
+  }[body.replace(/\r\n|\r|\n/g, "").trim()];
+
+  if (!command) {
+    return;
+  }
+
+  const fullContext /*: any */ = {
+    ...context,
+    payload: {
+      ...context.payload,
+      check_run: {
+        check_suite: {
+          head_branch: null,
+        },
+        head_sha: commit_id,
+      },
+    },
+  };
+  const checkRunContext /*: Context<Webhooks$WebhookPayloadCheckRun> */ = fullContext;
+  if (command === "CANARY") {
+    canaryPublish(checkRunContext);
+  } else if (command === "RELEASE") {
+    releasePR(checkRunContext);
+  }
 }
 
 async function onCheckRunRequestedAction(context) {
