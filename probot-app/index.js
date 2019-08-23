@@ -454,7 +454,8 @@ async function getReleaseContext(
         const changes = packageChanges.get(pkg) || [];
 
         if (!onlyLocalDepChanges.has(pkg)) {
-          changes.push(commit.message);
+          const commitTitle = commit.message.split("\n")[0].trim();
+          changes.push(commitTitle);
         }
 
         packageChanges.set(pkg, changes);
