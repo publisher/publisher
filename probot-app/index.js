@@ -123,9 +123,10 @@ async function onPush(context) {
   // Close outdated release PRs
   for (const pull of pulls.data) {
     const headBranch = pull.head.ref;
-    const headRepoId = pull.head.repo.id;
+    const headRepo = pull.head.repo;
     if (
-      repository.id === headRepoId &&
+      headRepo &&
+      headRepo.id === repository.id &&
       headBranch.startsWith(DRAFT_BRANCH_PREFIX)
     ) {
       context.github.git.deleteRef(
@@ -154,22 +155,24 @@ async function onPush(context) {
       });
     }
 
-    // TODO: consider commit `distinct` property, or see if check already exists?
-    context.github.checks.create(
-      context.repo({
-        name: "Release",
-        head_sha: commit.id,
-        status: "completed",
-        conclusion: "neutral",
-        completed_at: new Date().toISOString(),
-        ouptut: {
-          title: "title",
-          summary: "summary",
-          text: "text",
-        },
-        actions: actions,
-      }),
-    );
+    // Do not override check for commits already pushed
+    if (commit.distinct === true) {
+      context.github.checks.create(
+        context.repo({
+          name: "Release",
+          head_sha: commit.id,
+          status: "completed",
+          conclusion: "neutral",
+          completed_at: new Date().toISOString(),
+          ouptut: {
+            title: "title",
+            summary: "summary",
+            text: "text",
+          },
+          actions: actions,
+        }),
+      );
+    }
   }
 }
 
