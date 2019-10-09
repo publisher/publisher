@@ -2,36 +2,36 @@
 
 ["@publisher/core"]
 # prior : "0.2.1"
-version = "TODO"
+version = "0.2.2"
 
 ["@publisher/deployment-handler"]
 # prior : "0.3.0"
-version = "TODO"
+version = "0.3.1"
 
 ["@publisher/id-generator"]
 # prior : "0.1.2"
-version = "TODO"
+version = "0.1.3"
 
 ["@publisher/npm-auth"]
 # prior : "0.1.4"
-version = "TODO"
+version = "0.1.5"
 
 ["@publisher/npm-helpers"]
 # prior : "0.1.2"
-version = "TODO"
+version = "0.1.3"
 
 ["@publisher/probot-app"]
 # prior : "0.3.0"
-version = "TODO"
+version = "0.3.1"
 
 ["@publisher/push-handler"]
 # prior : "0.2.1"
-version = "TODO"
+version = "0.2.2"
 
 ["@publisher/rush-helpers"]
 # prior : "0.2.0"
-version = "TODO"
+version = "0.2.1"
 
 ["@publisher/yarn-helpers"]
 # prior : "0.1.2"
-version = "TODO"
+version = "0.1.3"
