@@ -1,0 +1,37 @@
+# ═════ Packages to publish ═════
+
+["@publisher/core"]
+# prior : "0.2.1"
+version = "TODO"
+
+["@publisher/deployment-handler"]
+# prior : "0.3.0"
+version = "TODO"
+
+["@publisher/id-generator"]
+# prior : "0.1.2"
+version = "TODO"
+
+["@publisher/npm-auth"]
+# prior : "0.1.4"
+version = "TODO"
+
+["@publisher/npm-helpers"]
+# prior : "0.1.2"
+version = "TODO"
+
+["@publisher/probot-app"]
+# prior : "0.3.0"
+version = "TODO"
+
+["@publisher/push-handler"]
+# prior : "0.2.1"
+version = "TODO"
+
+["@publisher/rush-helpers"]
+# prior : "0.2.0"
+version = "TODO"
+
+["@publisher/yarn-helpers"]
+# prior : "0.1.2"
+version = "TODO"
